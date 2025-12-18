@@ -1,9 +1,10 @@
 import { test } from '@playwright/test';
 import { LoginPage } from '../../pages/login.page';
 
-test('Login test', async ({ page }) => {
+test('SauceDemo login test', async ({ page }) => {
   const loginPage = new LoginPage(page);
 
-  await page.goto('https://example.com/login');
-  await loginPage.login('admin', 'password');
+  await loginPage.goToLoginPage();
+  await loginPage.login('standard_user', 'secret_sauce');
+  await loginPage.verifyLoginSuccess();
 });
