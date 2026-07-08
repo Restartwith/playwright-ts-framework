@@ -1,21 +1,26 @@
-import { Page, expect } from '@playwright/test';
+import { Locator, Page, expect } from '@playwright/test';
 
 export class InventoryPage {
-  constructor(private page: Page) {}
+  readonly addOnesieBtn: Locator;
+  readonly cartIcon: Locator;
+  readonly inventoryTitle: Locator;
 
-  // XPaths
-  addOnesieBtn = 'xpath=//*[@id="add-to-cart-sauce-labs-onesie"]';
-  cartIcon = 'xpath=//*[@id="shopping_cart_container"]/a';
+  constructor(private page: Page) {
+    this.addOnesieBtn = page.locator('[data-test="add-to-cart-sauce-labs-onesie"]');
+    this.cartIcon = page.locator('[data-test="shopping-cart-link"]');
+    this.inventoryTitle = page.locator('.inventory_list');
+  }
 
   async addOnesieToCart() {
-    await this.page.click(this.addOnesieBtn);
+    await this.addOnesieBtn.click();
   }
 
   async openCart() {
-    await this.page.click(this.cartIcon);
+    await this.cartIcon.click();
   }
 
   async verifyUserOnInventoryPage() {
     await expect(this.page).toHaveURL(/inventory.html/);
+    await expect(this.inventoryTitle).toBeVisible();
   }
 }

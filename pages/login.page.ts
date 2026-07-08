@@ -1,21 +1,24 @@
-import { Page, expect } from '@playwright/test';
+import { Locator, Page, expect } from '@playwright/test';
 
 export class LoginPage {
-  constructor(private page: Page) {}
+  readonly usernameInput: Locator;
+  readonly passwordInput: Locator;
+  readonly loginButton: Locator;
 
-  // XPath locators
-  usernameInput = 'xpath=//*[@id="user-name"]';
-  passwordInput = 'xpath=//*[@id="password"]';
-  loginButton = 'xpath=//*[@id="login-button"]';
+  constructor(private page: Page) {
+    this.usernameInput = page.locator('[data-test="username"]');
+    this.passwordInput = page.locator('[data-test="password"]');
+    this.loginButton = page.locator('[data-test="login-button"]');
+  }
 
-  async goToLoginPage() {
-    await this.page.goto('https://www.saucedemo.com/');
+  async goToLoginPage(url = 'https://www.saucedemo.com/') {
+    await this.page.goto(url);
   }
 
   async login(username: string, password: string) {
-    await this.page.fill(this.usernameInput, username);
-    await this.page.fill(this.passwordInput, password);
-    await this.page.click(this.loginButton);
+    await this.usernameInput.fill(username);
+    await this.passwordInput.fill(password);
+    await this.loginButton.click();
   }
 
   async verifyLoginSuccess() {
