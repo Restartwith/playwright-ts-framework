@@ -1,7 +1,6 @@
-import { expect } from '../../fixtures/baseFixture';
-import { test } from '../../fixtures/baseFixture';
+import { expect, test } from './helpers/fixtures';
 
-test('User can log in and reach the inventory page', async ({ loginPage, inventoryPage, testData }) => {
+test('Smoke test: login works for standard user', async ({ loginPage, inventoryPage, testData }) => {
   await loginPage.goToLoginPage(testData.baseUrl);
   await loginPage.login(testData.standardUser, testData.standardPassword);
 
